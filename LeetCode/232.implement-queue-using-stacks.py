@@ -1,5 +1,6 @@
 from TestTime import TimeSet
 from typing import List
+
 t = TimeSet()
 
 # @lc app=leetcode id=232 lang=python3
