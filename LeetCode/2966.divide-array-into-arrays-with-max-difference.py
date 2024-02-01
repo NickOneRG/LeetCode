@@ -51,6 +51,8 @@ class Solution:  # sombody from leetcode , good use of slicing
 
         So, if nums is [0, 1, 2, 3, 4, 5, 6, 7, 8], then nums[::3] would be [0, 3, 6], 
         nums[1::3] would be [1, 4, 7], and nums[2::3] would be [2, 5, 8].
+
+        Solution:  https://leetcode.com/problems/divide-array-into-arrays-with-max-difference/solutions/4658047/python-beats-8919-runtime-100-memory-using-slicing1-3
         '''
 
 # @lc code=end
