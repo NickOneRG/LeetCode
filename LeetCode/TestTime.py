@@ -5,6 +5,10 @@ class TimeSet:
     def __init__(self) -> None:
         pass
 
+    def __str__(self) -> str:
+        print(self.__class__.__name__)
+        return """ Dasturning ishlash vaqtini hisoblovchi dastur"""
+
     def hisobla(self, start: int = 0, x: int = 0) -> str:
         """ Dasturning ishlash vaqtini hisoblovchi dastur"""
         self.start = start
@@ -21,3 +25,5 @@ class TimeSet:
     
 if __name__ == '__main__':
     m = TimeSet()
+
+print(m)
