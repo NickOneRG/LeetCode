@@ -76,3 +76,4 @@ print(t.hisobla(time, 1))
 
 #         return res[0] if len(res[0] < len(res[1])) else res[0]
 
+
