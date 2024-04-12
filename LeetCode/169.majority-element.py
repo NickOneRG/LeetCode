@@ -1,5 +1,6 @@
 from TestTime import TimeSet
 from typing import List
+from collections import defaultdict
 t = TimeSet()
 #
 # @lc app=leetcode id=169 lang=python3
@@ -14,6 +15,16 @@ class Solution:
         for i in set(nums):
             if nums.count(i) > size_n:
                 return  i
+            
+
+class Solution:
+    def majorityElement(self, nums: List[int]) -> int:
+        memo = defaultdict(int)
+        for i in nums:
+            memo[i] += 1
+
+        return max(memo, key=memo.get)
+
 # @lc code=end
 
 

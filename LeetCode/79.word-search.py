@@ -1,4 +1,9 @@
-#
+from TestTime import TimeSet
+from typing import List
+from collections import defaultdict
+from collections import Counter
+t = TimeSet()
+
 # @lc app=leetcode id=79 lang=python3
 #
 # [79] Word Search
@@ -63,32 +68,72 @@
 #
 
 # @lc code=start
-class Solution:
-    def exist(self, board, word: str) -> bool:
-        a = board[0]
-        b = board[1]
-        c = board[2]
-        g = ''
-        for z in range(len(word)):
-            if word[z] in a:
-                for i in range(len(a)):
-                    if word[z] == a[i]:
-                        print(a[i])
-                        
+# class Solution:
+#     def exist(self, board, word: str) -> bool:
+#         char = word[0]
 
-            elif word[z] in b:
-                pass
-            elif word[z] in c:
-                pass
-            else:
+#         def helper(col, row):
+#             for i in [1, -1]:
+#                 if 
+
+        
+#         l = len(board[0])
+        
+#         for row in range(len(board)):
+#             for col in range(l):
+#                 if char == board[row][col]:
+#                     helper(col, row)
+
+#         return False
+    
+
+class Solution:
+    def exist(self, board: List[List[str]], word: str) -> bool:
+        len_r, len_c = len(board), len(board[0])
+
+        if len(word) > len_r * len_c: return False
+            
+        count = Counter(sum(board, []))
+
+        for c, countWord in Counter(word).items():
+            if count[c] < countWord: return False
+                
+        if count[word[0]] > count[word[-1]]:
+            word = word[::-1]
+
+        memo = set()
+
+        def engine(r, c, i):
+            if i == len(word): return True
+            if r < 0 or c < 0 or r >= len_r or c >= len_c or word[i] != board[r][c] or (r, c) in memo:
                 return False
 
-        
-        
-        return(a,b,c)
+            memo.add((r, c))
+            res = (
+                engine(r+1, c, i+1) or
+                engine(r-1, c, i+1) or
+                engine(r, c+1, i+1) or
+                engine(r, c-1, i+1)
+            )
+            memo.remove((r, c))  # backtracking
+
+            return res
+
+        for row in range(len_r):
+            for col in range(len_c):
+                if engine(row, col, 0):
+                    return True
+                
+        return False
+
 # @lc code=end
 
 
+
+
+time = t.hisobla()
+
 m = Solution()
-s = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"],["A","D","E","E"]]
-print(m.exist(s, 'ABCCED'))
+print(m.exist([["A","B","C","E"],["S","F","C","S"],["A","D","E","E"],["A","D","E","E"]], 'ABCCED'))
+
+print(t.hisobla(time, 1))
