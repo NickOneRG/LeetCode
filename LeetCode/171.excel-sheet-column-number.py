@@ -7,19 +7,15 @@
 # @lc code=start
 class Solution:
     def titleToNumber(self, columnTitle: str) -> int:
-        mul = 1
-        if len(columnTitle)  == 1:
-            return (ord(columnTitle)-64)
-        else:
-            for i in columnTitle:
-                mul_copy = mul
-                s = (ord(i)-64)
-                mul += 26*s
-                s += mul_copy
-        
+
+        s = 0
+        for char in columnTitle:
+            s = s * 26 + ord(char) - 65 +1
         return s
+    
 # @lc code=end
 
 m = Solution()
 
-print(m.titleToNumber(input()))
+for i in ["A", "B", "C", "D", "E", "F", "Z", "AA", "AB", "AZ", "ZY", "FXSHRXW"]:
+    print(f"{i}:  {m.titleToNumber(i)}")
