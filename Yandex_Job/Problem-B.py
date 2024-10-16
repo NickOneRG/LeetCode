@@ -151,3 +151,39 @@
 # daa,dab,dadba}. Ular hammasi boʻlib 3 ta, shuning uchun bu soʻrovga javob 
 # −1 sonidir.
 # Vazifa shartlarini yuklab olish
+
+
+
+
+
+
+import sys
+from bisect import bisect_left
+
+def main():
+    input = sys.stdin.read
+    data = input().splitlines()
+
+    N, Q = map(int, data[0].split())
+    words = data[1:N + 1]  
+
+    res = []
+
+    for i in range(N + 1, N + Q + 1):
+        k, prefix = data[i].split()
+        k = int(k)
+
+        start_ind = bisect_left(words, prefix)
+        end_ind = bisect_left(words, prefix + '{') 
+
+        count = end_ind - start_ind
+        
+        if count >= k:
+            res.append(str(start_ind + k - 1 + 1))  
+        else:
+            res.append("-1")
+
+    sys.stdout.write("\n".join(res) + "\n")
+
+if __name__ == "__main__":
+    main()

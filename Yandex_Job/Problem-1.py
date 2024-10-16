@@ -4,55 +4,25 @@ Vaqt chegarasi	1 ikkinchi
 Xotirani cheklash	256.0 MB
 Kirish	stdin yoki input.txt
 Xulosa	stdout yoki output.txt
-Unexpected text node: '
-                            
-                        '
 C++ tilidan foydalansangiz, unda kirish ma'lumotlarini hisoblash uchun bu vazifada sizga 
-Unexpected text node: '
-                            
-                        '
 std::getline funksiyasi kerak bo'lishi mumkin. Bu haqida batafsil bu yerda o'qishingiz mumkin Kichik inglizcha harflar, oraliqlar va vergullardan iborat matn berilgan. 
-Unexpected text node: '
-                            
-                        '
 len matnda 
-Unexpected text node: '
-                            
-                        '
 3 ga ko'paytirilgan maksimal so'z uzunligiga teng bo'lsin. Matnni quyidagicha formatlashingiz zarur:
 
 har bir satrda belgilar 
-Unexpected text node: '
-                                
-                            '
 len tadan ko'p bo'lmasligi kerak
 vergul so'z oldidan unga “yopishadi”, ya'ni u so'z bilan bitta satrda bo'lishi kerak
 vergul oldidan oraliq qoldirilmaydi
 vergul satrning oxirgi belgisi hisoblanmasa, undan keyin oraliq qo'yiladi
 agar so'z 
-Unexpected text node: '
-                                
-                            '
 i satriga kirmasa, 
-Unexpected text node: '
-                                
-                            '
 i satri tugaydi, so'z esa 
-Unexpected text node: '
-                                
-                            '
 (i+1) satrida yoziladi
 har qanday satrda oxirgi belgi harf yoki vergul bo'lishi kerak
 Kirish formati
 Yagona kiritish satrida kichik inglizcha harflar, vergullar va oraliqlardan iborat 
-Unexpected text node: '
-                            
-                        '
 w (
-Unexpected text node: '
-                            
-                        '
-1≤∣w∣≤10 
+1≤w≤10 
 5
  ) satri joylashgan.
 
@@ -83,19 +53,10 @@ m, n, o, p, yandex
 
 Izohlar
 Birinchi misolda eng uzun so'z «unmatched» hisoblanadi, shuning uchun 
-Unexpected text node: '
-                            
-                        '
 len=9 va formatlangan matnning har bir satrida 
-Unexpected text node: '
-                            
-                        '
-27 dan ortiq belgi bo'lmasligi kerak. Birinchi vergul «time» so'ziga, ikkinchisi – «princess» so'ziga tegishli, shuning uchun formatlangan matnda bu vergullar tegishli so'zlar tugashi bilan qo'yiladi. Vergullardan keyin bittadan oraliq qoldirilgan.
+27 dan ortiq belgi bo'lmasligi kerak. Birinchi vergul «time» so'ziga, ikkinchisi  «princess» so'ziga tegishli, shuning uchun formatlangan matnda bu vergullar tegishli so'zlar tugashi bilan qo'yiladi. Vergullardan keyin bittadan oraliq qoldirilgan.
 
-Ikkinchi misolda eng uzun so'z – «yandex», shuning uchun 
-Unexpected text node: '
-                            
-                        '
+Ikkinchi misolda eng uzun so'z  «yandex», shuning uchun 
 len=6. Formatlangan matnning har bir satrida belgilar 18 dan ko'p bo'lmasligi kerak. Formatlangan matnning birinchi satri 
 Unexpected text node: '
                               '
@@ -132,7 +93,65 @@ class Solution:
         return "\n".join(format_text)
 
 
-# Example usage:
-m = Solution()
-print(m.str_formating("once upon a time, in a land far far away lived a princess, whose beauty was yet unmatched"))
-print(m.str_formating("a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,yandex"))
+if __name__ == '__main__':
+    # Example usage:
+    m = Solution()
+    print(m.str_formating(input()))
+    # print(m.str_formating("a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,yandex "))
+    for i in m.str_formating("a , b, c d,e,f  ,g,h,i,j,k,l,m,n,o,p , yandex , ").split("\n"):
+        print(i+"|")
+
+
+
+
+def format_text(input_text):
+    # Split the text into words while preserving commas
+    words = []
+    current_word = []
+    
+    for char in input_text:
+        if char in [' ', ',']:
+            if current_word:
+                words.append(''.join(current_word))
+                current_word = []
+            if char == ',':
+                words.append(',')
+        else:
+            current_word.append(char)
+    
+    if current_word:
+        words.append(''.join(current_word))
+    
+    max_length = max(len(word) for word in words if word != ',') * 3
+    
+    result = []
+    current_line = []
+    current_length = 0
+    
+    for word in words:
+        if word == ',':
+            if current_line:
+                current_line[-1] += ','
+                current_length += 1 
+        else:
+            if current_length + len(word) + (1 if current_length > 0 else 0) > max_length:
+                result.append(' '.join(current_line))
+                current_line = [word] 
+                current_length = len(word)
+            else:
+                if current_length > 0:
+                    current_line.append(' ') 
+                    current_length += 1 
+                current_line.append(word)
+                current_length += len(word)
+
+    
+    if current_line:
+        result.append(''.join(current_line))
+    
+    return '\n'.join(result)
+
+# input_text = input().strip()
+input_text = "once upon a time, in a land far far away lived a princess , whose beauty was yet unmatched"
+formatted_text = format_text(input_text)
+print(formatted_text)

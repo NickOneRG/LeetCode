@@ -1,46 +1,57 @@
 
 
+def main():
+    import sys
+    input = sys.stdin.read
+    data = input().splitlines()
 
+    N = int(data[0])  
+    commands = data[1].strip()  
 
+    possible = set()
 
-
-def final_position(commands):
-    position = 0
-    direction = 0  # 0: right, 1: down, 2: left, 3: up
-    for command in commands:
-        if command == 'F':
-            if direction == 0:  # right
-                position += 1
-            elif direction == 2:  # left
-                position -= 1
-        elif command == 'R':
-            direction = (direction + 1) % 4
-        elif command == 'L':
-            direction = (direction - 1) % 4
-    return position
-
-def possible_positions(N, commands):
-    # Calculate the original final position
-    original_position = final_position(commands)
     
-    # Set to keep track of unique positions
-    unique_positions = {original_position}
+    def simulate(commands):
+        pos = 0
+        dir = 0  
 
-    # Try replacing each command with 'F', 'R', and 'L'
+        for command in commands:
+            match command:
+                case 'F':
+                    match dir:
+                        case 0: pos += 1
+                        case 1: pos -= 1
+                        case 2: pos -= 1
+                        case 3: pos += 1
+
+                case 'R': dir = (dir + 1) % 4
+                case 'L': dir = (dir - 1) % 4
+
+        return pos
+
+    possible.add(simulate(commands))
+
     for i in range(N):
-        for new_command in 'FRL':
-            if commands[i] != new_command:
-                new_commands = commands[:i] + new_command + commands[i+1:]
-                new_position = final_position(new_commands)
-                unique_positions.add(new_position)
+        for comm in 'RL':
+            if commands[i] == 'F':
+                continue  
+            memo = list(commands)
+            memo[i] = comm
+            possible.add(simulate(memo))
 
-    return len(unique_positions)
+    for i in range(N):
+        if commands[i] == 'F':
+            for comm in 'RL':
+                memo = list(commands)
+                memo[i] = comm
+                possible.add(simulate(memo))
 
-# Input handling
-N = int(input().strip())
-commands = input().strip()
+    print(len(possible))
 
-# Calculate and print the number of unique positions
-result = possible_positions(N, commands)
-print(result)
+
+if __name__ == "__main__":
+    main()
+
+
+
 
